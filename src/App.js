@@ -1,24 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Auth from "../src/pages/Auth";
+import AddTodo from "./pages/AddTodo";
+import Dashboard from "./pages/Dashboard";
+import EditTodo from "./pages/EditTodo";
+import Home from "./pages/Home";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+        <Routes>
+          <Route path="auth" element={<Auth />} />
+
+          <Route
+            path="add-todo"
+            element={
+              <ProtectedRoute>
+                <AddTodo />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="edit-todo/:id"
+            element={
+              <ProtectedRoute>
+                <EditTodo />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+    </BrowserRouter>
   );
 }
 
